@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Asistencia - Empleo y Selección</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #d4a574 0%, #c89f6f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #c89f6f 0%, #b8905f 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .content {
+            display: flex;
+            padding: 40px;
+            gap: 40px;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #qrcode {
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 3px solid #c89f6f;
+        }
+
+        .qr-label {
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .timer {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #c89f6f 0%, #b8905f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(200, 159, 111, 0.3);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .timer-label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #c89f6f;
+        }
+
+        .info-box label {
+            display: block;
+            font-size: 0.85em;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .info-box p {
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .instructions {
+            background: #e8f4f8;
+            border-left: 4px solid #0088cc;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .instructions p {
+            color: #0066aa;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .status {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: #856404;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                flex-direction: column;
+                padding: 30px;
+                gap: 30px;
+            }
+
+            .timer {
+                width: 100px;
+                height: 100px;
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Empleo y Selección</h1>
+            <p>Sistema de Asistencia por QR Dinámico</p>
+        </div>
+
+        <div class="content">
+            <div class="qr-section">
+                <div class="qr-label">Escanea el código QR</div>
+                <div id="qrcode"></div>
+                <div class="timer-container">
+                    <div class="timer" id="timer">15</div>
+                    <div class="timer-label">Segundos restantes</div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-box">
+                    <label>Materia</label>
+                    <p>Empleo y Selección de Personal</p>
+                </div>
+
+                <div class="info-box">
+                    <label>Facultad</label>
+                    <p>Ciencias Económicas - UNNE</p>
+                </div>
+
+                <div class="info-box">
+                    <label>Licenciatura</label>
+                    <p>Relaciones Laborales</p>
+                </div>
+
+                <div class="instructions">
+                    <p>
+                        <strong>📱 Instrucciones:</strong><br>
+                        1. Abre tu cámara o app de QR<br>
+                        2. Escanea el código antes de que se renueve<br>
+                        3. Completa tu nombre y comisión<br>
+                        4. ¡Listo! Tu asistencia ha sido registrada
+                    </p>
+                </div>
+
+                <div class="status">
+                    ⚠️ <strong>Nota:</strong> El QR se renueva automáticamente cada 15 segundos. Solo se puede marcar UNA VEZ por dispositivo por día.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL del formulario de asistencia
+        // Si estás usando local, cambia esto a: file:///C:/Users/TuUsuario/Descargas/formulario_asistencia.html
+        // O mejor aún, sube ambos archivos a un servidor web
+        const FORMULARIO_URL = window.location.origin + '/formulario_asistencia.html';
+        const INTERVAL = 15000; // 15 segundos
+        let timeLeft = 15;
+        let qrCounter = 0;
+
+        function generateQR() {
+            // Limpiar QR anterior
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            
+            // Crear URL con parámetro único (timestamp) para que el QR sea diferente cada vez
+            const timestamp = Date.now();
+            const uniqueURL = `${FORMULARIO_URL}?t=${timestamp}`;
+            
+            try {
+                // Generar nuevo QR con opciones mejoradas
+                new QRCode(qrContainer, {
+                    text: uniqueURL,
+                    width: 300,
+                    height: 300,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H,
+                    margin: 2
+                });
+                
+                qrCounter++;
+                console.log('QR generado #' + qrCounter + ' a las ' + new Date().toLocaleTimeString());
+            } catch (error) {
+                console.error('Error generando QR:', error);
+                qrContainer.innerHTML = '<p style="color: red; padding: 20px;">Error al generar QR. Recarga la página.</p>';
+            }
+
+            // Reiniciar contador
+            timeLeft = 15;
+            updateTimer();
+        }
+
+        function updateTimer() {
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = timeLeft;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                generateQR();
+            }
+        }
+
+        // Esperar a que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página cargada, generando primer QR...');
+            generateQR();
+            
+            // Regenerar QR cada 15 segundos
+            setInterval(generateQR, INTERVAL);
+        });
+    </script>
+</body>
+</html>
